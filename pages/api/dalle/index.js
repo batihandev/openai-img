@@ -1,6 +1,4 @@
-import { METHODS } from 'http';
 import { Configuration, OpenAIApi } from 'openai';
-import Post from '../[mongodb]/models/post';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,

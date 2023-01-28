@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
-import Post from '../[mongodb]/models/post';
-import connectDB from '../[mongodb]/connect';
+
+import PostSchema from '../../../lib/[mongodb]/models/post';
+import clientPromise from '../../../lib/mongodb';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -24,12 +25,13 @@ export const config = {
 // }
 
 export default async (req, res) => {
-  await connectDB(process.env.MONGODB_URL);
+  await clientPromise;
   if (req.method === 'POST') {
     try {
       const { name, prompt, photo } = req.body;
+
       const photoUrl = await cloudinary.uploader.upload(photo);
-      const newPost = await Post.create({
+      const newPost = await PostSchema.create({
         name,
         prompt,
         photo: photoUrl.url,
@@ -43,7 +45,7 @@ export default async (req, res) => {
     }
   } else if (req.method === 'GET') {
     try {
-      const posts = await Post.find({});
+      const posts = await PostSchema.find({});
       res.status(200).json({ success: true, data: posts });
     } catch (error) {
       res.status(500).json({ success: false, message: error });

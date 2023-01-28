@@ -1,11 +1,5 @@
 'use client';
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { preview } from 'assets';
 import { getRandomPrompt } from '../[utils]';
 import { FormField } from 'app/[components]';

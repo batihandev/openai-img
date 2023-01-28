@@ -4,7 +4,9 @@ const Post = new mongoose.Schema({
   prompt: { type: String, required: true },
   photo: { type: String, required: true },
 });
-
-const PostSchema = mongoose.model('Post', Post);
+let PostSchema;
+try {
+  PostSchema = mongoose.model('Post', Post);
+} catch {}
 
 export default PostSchema;
