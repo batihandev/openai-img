@@ -5,12 +5,16 @@ import { getRandomPrompt } from '../[utils]';
 import { FormField } from 'app/[components]';
 import Loader from 'app/loading';
 import { useRouter } from 'next/navigation';
+import Modal from '@mui/material/Modal';
 
 function page() {
   const navigation = useRouter();
   const [form, setForm] = useState({ name: '', prompt: '', photo: '' });
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setloading] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const generateImage = async () => {
     if (form.prompt) {
       try {
@@ -100,11 +104,26 @@ function page() {
           />
           <div className="relative flex h-64 w-64 items-center justify-center rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
             {form.photo ? (
-              <img
-                src={form.photo}
-                alt={form.prompt}
-                className="h-full w-full object-contain"
-              />
+              <>
+                <img
+                  onClick={handleOpen}
+                  src={form.photo}
+                  alt={form.prompt}
+                  className="h-full w-full object-contain"
+                />
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <img
+                    src={form.photo}
+                    alt={form.prompt}
+                    className="absolute bottom-1/2  right-1/2 max-h-[90vh] max-w-[90vw] translate-x-1/2 translate-y-1/2 object-contain"
+                  />
+                </Modal>
+              </>
             ) : (
               <img src={preview.src} alt="preview" />
             )}
@@ -130,7 +149,7 @@ function page() {
             others in the community
           </p>
           <button
-            type="submit"
+            type="button"
             className="mt-3 w-full rounded-md bg-[#6469ff] px-5 py-5 text-center text-sm font-medium text-white sm:w-auto"
           >
             {loading ? 'Sharing...' : 'Share with the community'}

@@ -31,7 +31,7 @@ export default function Layout({ children }: props) {
             href={'/create-post'}
             className="rounded bg-[#6469ff] px-4 py-2 font-medium text-white"
           >
-            Create
+            Generate Image
           </Link>
         </header>
         <main className="min-h-[calc(100vh-73px)] w-full bg-[#f9fafe] px-4 py-8 sm:p-8">
