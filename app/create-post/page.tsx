@@ -24,7 +24,9 @@ function page() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ prompt: form.prompt }),
+          body: JSON.stringify({
+            prompt: form.prompt,
+          }),
         });
         const data = await response.json();
         setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
@@ -39,27 +41,30 @@ function page() {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (form.prompt && form.photo) {
-      setloading(true);
-      try {
-        const response = await fetch('api/postRoutes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(form),
-        });
+    // if (form.prompt && form.photo) {
+    setloading(true);
+    try {
+      const response = await fetch('api/postRoutes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+      console.log(form);
+      if (response.ok) {
         await response.json();
-
         navigation.push('/');
-      } catch (error) {
-        alert(error);
-      } finally {
-        setloading(false);
       }
-    } else {
-      alert('Please enter a prompt and generate an image');
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    } finally {
+      setloading(false);
     }
+    // } else {
+    //   alert('Please enter a prompt and generate an image');
+    // }
   };
 
   const handleChange = (e: ChangeEvent) => {
@@ -80,7 +85,7 @@ function page() {
           share them with the community
         </p>
       </div>
-      <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+      <form className="mt-16 max-w-3xl">
         <div className="flex flex-col gap-5">
           <FormField
             labelname="Your Name"
@@ -150,6 +155,7 @@ function page() {
           </p>
           <button
             type="button"
+            onClick={handleSubmit}
             className="mt-3 w-full rounded-md bg-[#6469ff] px-5 py-5 text-center text-sm font-medium text-white sm:w-auto"
           >
             {loading ? 'Sharing...' : 'Share with the community'}

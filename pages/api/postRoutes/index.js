@@ -25,6 +25,7 @@ export const config = {
 export default async (req, res) => {
   if (req.method === 'POST') {
     try {
+      // console.log(req.body.name, 'test');
       const { name, prompt, photo } = req.body;
       const client = await clientPromise;
       const db = client.db('test');
@@ -39,7 +40,7 @@ export default async (req, res) => {
     } catch (err) {
       console.log(err);
 
-      res.status(500).json({ success: false, message: error });
+      res.status(500).json({ success: false, message: err });
     }
   } else if (req.method === 'GET') {
     try {
